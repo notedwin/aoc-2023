@@ -12,28 +12,31 @@ def check(line_idx, r_idx, len_):
     l_idx = r_idx - len_
     # print(line_idx, l_idx, r_idx)
 
-    moves = [(-1, -1), (-1, 0), (1, 0), (0, -1), (0, 1), (1, -1), (0, 1), (1, 1)]
+    for num_idx in range(l_idx, r_idx):
+        print(num_idx)
 
-    for move in moves:
-        if line_idx + move[0] < 0 or line_idx + move[0] > len(arr):
-            continue
+    # moves = [(-1, -1), (-1, 0), (1, 0), (0, -1), (0, 1), (1, -1), (0, 1), (1, 1)]
 
-        rvalue = "."
-        if r_idx + move[1] > 0 and r_idx + move[1] < len(arr[line_idx]):
-            rvalue = arr[line_idx + move[0]][r_idx + move[1]]
+    # for move in moves:
+    #     if line_idx + move[0] < 0 or line_idx + move[0] > len(arr):
+    #         continue
 
-        lvalue = "."
-        if l_idx + move[1] > 0 and l_idx + move[1] < len(arr[line_idx]):
-            rvalue = arr[line_idx + move[0]][l_idx + move[1]]
+    #     rvalue = "."
+    #     if r_idx + move[1] > 0 and r_idx + move[1] < len(arr[line_idx]):
+    #         rvalue = arr[line_idx + move[0]][r_idx + move[1]]
 
-        # print(
-        #     f"moving {move[0],move[1]} for line: arr[{line_idx}]][{r_idx + move[1], l_idx + move[1]}]"
-        # )
-        # print(rvalue, lvalue)
-        if rvalue != "." and not rvalue.isdigit():
-            return True
-        if lvalue != "." and not lvalue.isdigit():
-            return True
+    #     lvalue = "."
+    #     if l_idx + move[1] > 0 and l_idx + move[1] < len(arr[line_idx]):
+    #         rvalue = arr[line_idx + move[0]][l_idx + move[1]]
+
+    #     # print(
+    #     #     f"moving {move[0],move[1]} for line: arr[{line_idx}]][{r_idx + move[1], l_idx + move[1]}]"
+    #     # )
+    #     # print(rvalue, lvalue)
+    #     if rvalue != "." and not rvalue.isdigit():
+    #         return True
+    #     if lvalue != "." and not lvalue.isdigit():
+    #         return True
 
     return False
 
