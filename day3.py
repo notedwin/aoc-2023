@@ -8,12 +8,73 @@ with open(file_, "r") as f:
         arr.append(list(line)[:-1])
 
 
-def check(line_idx, r_idx, len_):
+def check(line_idx, r_idx, len_, num):
     l_idx = r_idx - len_
-    # print(line_idx, l_idx, r_idx)
-
+    # print(num, line_idx, l_idx, r_idx)
+    # print(list(range(l_idx, r_idx)))
     for num_idx in range(l_idx, r_idx):
-        print(num_idx)
+        # print(num_idx)
+        if num_idx == l_idx:
+            # check up down left + diags
+            if line_idx + 1 < len(arr):
+                if arr[line_idx + 1][num_idx] != ".":
+                    return True
+
+            if line_idx - 1 >= 0:
+                if arr[line_idx - 1][num_idx] != ".":
+                    return True
+
+            if l_idx - 1 >= 0:
+                if arr[line_idx][l_idx - 1] != ".":
+                    return True
+
+                if line_idx - 1 >= 0:
+                    if arr[line_idx - 1][num_idx - 1] != ".":
+                        return True
+
+                if line_idx + 1 < len(arr):
+                    if arr[line_idx + 1][num_idx - 1] != ".":
+                        return True
+
+        elif num_idx == r_idx - 1:
+            # check up down right
+            # print(
+            #     arr[line_idx][num_idx + 1],
+            #     arr[line_idx + 1][num_idx + 1],
+            # )
+
+            if line_idx + 1 < len(arr):
+                if arr[line_idx + 1][num_idx] != ".":
+                    return True
+
+            if line_idx - 1 >= 0:
+                if arr[line_idx - 1][num_idx] != ".":
+                    return True
+
+            if r_idx + 1 < len(arr[line_idx]):
+                if arr[line_idx][num_idx + 1] != ".":
+                    return True
+
+                if line_idx + 1 < len(arr):
+                    if arr[line_idx + 1][num_idx + 1] != ".":
+                        return True
+
+                if line_idx - 1 >= 0:
+                    if arr[line_idx - 1][num_idx + 1] != ".":
+                        return True
+
+        else:
+            # check up and down
+            if line_idx + 1 < len(arr):
+                if arr[line_idx + 1][num_idx] != ".":
+                    return True
+
+            if line_idx - 1 >= 0:
+                if arr[line_idx - 1][num_idx] != ".":
+                    return True
+
+        # print(num_idx)
+    return False
 
     # moves = [(-1, -1), (-1, 0), (1, 0), (0, -1), (0, 1), (1, -1), (0, 1), (1, 1)]
 
@@ -37,8 +98,6 @@ def check(line_idx, r_idx, len_):
     #         return True
     #     if lvalue != "." and not lvalue.isdigit():
     #         return True
-
-    return False
 
     # if l_idx == 0 and move[0] == -1:
     #     # remove moves with -1 in y
@@ -74,7 +133,7 @@ for l_idx, line in enumerate(arr):
         else:
             if num:
                 # print("check for", num)
-                if check(l_idx, idx, len(num)):
+                if check(l_idx, idx, len(num), num):
                     print(f"valid: {num}")
                     s += int(num)
             num = ""
