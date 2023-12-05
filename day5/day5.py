@@ -1,12 +1,7 @@
 import os
-from collections import defaultdict
 
 pwd = os.path.dirname(os.path.realpath(__file__))
-file_ = os.path.join(pwd, "day5_test.txt")
-
-
-cards = defaultdict(lambda: 1)
-
+file_ = os.path.join(pwd, "day5.txt")
 
 seeds = []
 seed2soil = {}
@@ -21,42 +16,35 @@ hum2loc = {}
 sections = 0
 
 
-def line2dict(line, d):
+def line2dict(line, d, values):
     nums = [int(x) for x in line.split()]
-    for idx, src in enumerate(range(nums[1], nums[1] + nums[2])):
-        # print(f"chaning d[{src} to {nums[0]} + {nums[2]}]")
-        d[src] = nums[0] + idx
+
+    for value in values:
+        num = int(value)
+
+        if nums[1] <= num < nums[1] + nums[2]:
+            diff = nums[0] - nums[1]
+            d[num] = num + diff
 
 
-def fill(d):
-    keys = d.keys()
-
-    def num_exists(num):
-        return num not in keys
-
-    for num in filter(num_exists, range(100)):
-        d[num] = num
-
-
-# we can optimze later and only look at ranges containing one of the inital seeds
+look = None
 with open(file_, "r") as f:
     for idx, line in enumerate(f.readlines()):
         if line == "\n":
-            if sections == 1:
-                fill(seed2soil)
-            if sections == 2:
-                fill(soil2fert)
-            if sections == 3:
-                fill(fert2water)
-            if sections == 4:
-                fill(water2light)
-            if sections == 5:
-                fill(light2temp)
-            if sections == 6:
-                fill(temp2hum)
-            if sections == 7:
-                fill(hum2loc)
-
+            # print(look)
+            match sections:
+                case 1:
+                    look = [seed2soil.get(int(seed), int(seed)) for seed in seeds]
+                case 2:
+                    look = [soil2fert.get(v, v) for v in look]
+                case 3:
+                    look = [fert2water.get(v, v) for v in look]
+                case 4:
+                    look = [water2light.get(v, v) for v in look]
+                case 5:
+                    look = [light2temp.get(v, v) for v in look]
+                case 6:
+                    look = [temp2hum.get(v, v) for v in look]
             sections += 1
             continue
 
@@ -66,45 +54,38 @@ with open(file_, "r") as f:
         if sections == 1:
             if line[:1].isalpha():
                 continue
-            line2dict(line, seed2soil)
+            line2dict(line, seed2soil, seeds)
 
         if sections == 2:
             if line[:1].isalpha():
                 continue
-            line2dict(line, soil2fert)
+            line2dict(line, soil2fert, look)
 
         if sections == 3:
             if line[:1].isalpha():
                 continue
-            line2dict(line, fert2water)
+            line2dict(line, fert2water, look)
 
         if sections == 4:
             if line[:1].isalpha():
                 continue
-            line2dict(line, water2light)
+            line2dict(line, water2light, look)
 
         if sections == 5:
             if line[:1].isalpha():
                 continue
-            line2dict(line, light2temp)
+            line2dict(line, light2temp, look)
 
         if sections == 6:
             if line[:1].isalpha():
                 continue
-            line2dict(line, temp2hum)
+            line2dict(line, temp2hum, look)
 
         if sections == 7:
             if line[:1].isalpha():
                 continue
-            line2dict(line, hum2loc)
+            line2dict(line, hum2loc, look)
 
-print(hum2loc)
-
-
-r = min(
-    hum2loc[
-        temp2hum[light2temp[water2light[fert2water[soil2fert[seed2soil[int(seed)]]]]]]
-    ]
-    for seed in seeds
-)
-print(r)
+m = float("inf")
+look = [hum2loc.get(v, v) for v in look]
+print(min(look))
