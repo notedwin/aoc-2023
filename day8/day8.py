@@ -1,3 +1,4 @@
+import math
 import os
 
 pwd = os.path.dirname(os.path.realpath(__file__))
@@ -22,20 +23,16 @@ with open(file_, "r") as f:
 
         network[cur] = loc
 
-count = 0
 a_nodes = [key for key in network.keys() if key[-1] == "A"]
-traveled = {}
+all_steps = []
 
-while any(node[-1] != "Z" for node in a_nodes):
-    # print(a_nodes)
-    direction = path_order.pop(0)
-    path_order.append(direction)
-    for idx, node in enumerate(a_nodes):
-        a_nodes[idx] = network[node][d[direction]]
-    if tuple(a_nodes) in traveled:
-        # print(traveled)
-        break
-    count += 1
-    traveled[tuple(a_nodes)] = 1
+for node in a_nodes:
+    count = 0
+    while node[-1] != "Z":
+        print(node)
+        direction = path_order[count % len(path_order)]
+        node = network[node][d[direction]]
+        count += 1
+    all_steps.append(count)
 
-print(count)
+print(math.lcm(*all_steps))
