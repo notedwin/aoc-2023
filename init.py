@@ -1,7 +1,7 @@
 import os
 
 pwd = os.path.dirname(__file__)
-folder_name = os.path.basename(os.getcwd())
+folder_name = os.path.basename(pwd)
 file_ = os.path.join(pwd, f"{folder_name}")
 
 
