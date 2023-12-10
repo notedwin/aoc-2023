@@ -7,11 +7,10 @@ if [ "$#" -lt 1 ]; then
 fi
 
 name="day$1"
-echo $name
 
 mkdir $name 
 
-touch "$name/$name.py"
+cp init.py "$name/$name.py"
 touch "$name/${name}_test.txt"
 touch "$name/$name.txt"
 
