@@ -51,5 +51,5 @@ def task2(file_):
 assert task1(f"{file_}_test.txt") == 136
 print(task1(f"{file_}.txt"))
 
-# assert task2(f"{file_}_test.txt") == 2
+# assert task2(f"{file_}_test.txt") == 64
 # print(task2(f"{file_}.txt"))
